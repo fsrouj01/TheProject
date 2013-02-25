@@ -1,16 +1,30 @@
 (ns tests
   "Tests for partial-Database as a whole"
-  :use clojure.set
-  :use java.util.Formatter.format
-;   (:import (java.io File))
-;   (:require clojure.contrib.sql)
+  (:use partial-Database); copy all symbols from the partial-Database ns
+  (:use clojure.set)
+  (:import (java.io File))  
 )
 
-
+;(:require clojure.contrib.sql)
+; :use java.util.Formatter.format
+; (:import (java.io File))
 
 ;-----------------------------------------------------------------------  
-; Three tables
-;----------------------------------------------------------------------- 
+; Testing DDL operations 
+;-----------------------------------------------------------------------  
+
+blabla
+
+(ns tests
+  "Tests for partial-Database as a whole"
+  (:use partial-Database); copy all symbols from the partial-Database ns
+  (:use clojure.set)
+  (:import (java.io File))  
+)
+
+;-----------------------------------------------------------------------  
+; Testing SQL operations on already created tables
+;-----------------------------------------------------------------------  
 
 ;; Represented as sets of unique maps, while the maps represents the rows.
  
@@ -33,30 +47,29 @@
 ; *The example of the DB is taken from the book: 
 ;  "Programming Clojure by Stuart Halloway" page 140
 
+bla bla
+
 ;-----------------------------------------------------------------------  
-; Some relational algebra
-;----------------------------------------------------------------------- 
-(defn alter-table-add [table-name col]
-  (cons table-name col))
-(alter-table-add nations {:composer "Giuseppe Verdi" :country "Italy" } )
-( nations "Germany")
+; Relational algebra tests
+;-----------------------------------------------------------------------  
+*ns*
+
+(def tables (ref #{}))
+
+
+
+
+
+
+(def coco { :language "German" :nation "Italy" })
+(coco "italy")
+
+
 (defdemo demo-map-builders
   (assoc song :kind "MPEG Audio File")
   (dissoc song :genre)
   (select-keys song [:name :artist])
   (merge song {:size 8118166 :time 507245}))
-
-;; Union two tables
-(defn tables-union [table1 table2] (conj table1 table2)) 
-
-;
-(difference composers nations)
-
-(intersection languages beverages)
-
-
-(select #(= 1 (.length %)) languages)
-(join compositions composers)
 
 (print (format "%20s %20s %20s\n%20s %20s %20s"  composers))
 
