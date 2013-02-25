@@ -5,16 +5,28 @@
 ;;;;;;;; draft file ;;;;;;;;;
 
 ;=======================================================================
-; Create a transaction?
+; Manage the database
+;=======================================================================
+
+(defn #^set create-database #^set[db-name tables-names]
+  "Returns a database constructed from the tables inputed"
+  (def db-name (ref #{})))
+(if) 
+(defn drop-database [db-name])
+
+(defn use-database [db-name])
+
+(dosync (alter dataBase conj compositions))
+
+;=======================================================================
+; Create a ?
 ;=======================================================================
  
 (def tables (ref #{}))
 
 (dosync & db); Use ref to create a reference, and use def to bind this reference to the name tables
         
-(dosync (alter tables conj "Stu"))
-
-;(def tables (ref #{}))
+(db (alter tables conj "Stu"))
 
 ;=======================================================================
 ; To make a reference to the table ?
@@ -32,38 +44,43 @@
 (let [])
 
 ;=======================================================================
-; Manage the database
+; CRUD - create, read, update, delete - table
 ;=======================================================================
 
-(defn create-database 
-  "Returns a database constructed from the tables inputed"
-  [db-name tables])
-
-(defn drop-database [db-name])
-
-(defn use-database [db-name])
+(defn create-table [table-name]
+  "creates an empty table"
+  (def table-name  )
+  )
 
 ;=======================================================================
 ; Change in an existing table
 ;=======================================================================
 
-(defn alter-table-add [table-name col]
+(defn table-add-col [table-name col]
   (cons table-name col))
 
-(defn alter-table-change [table-name att val]
-  (alter r update-fn & args)) 
+(defn table-add-cols [table-name cols]
+  apple(cons table-name col))
 
-(defn alter-table-drop [table-name att]
+(defn table-add-row [table-name col]
+  (cons table-name col))
+
+(defn table-add-rows [table-name col]
+  (cons table-name col))
+
+(defn drop-table [table-name att]
   (alter r update-fn & args))
 
 (assoc nations :state "NC")
+
 ;;; Domain constraints
 ;; Value inserted to the database must come appropriate field
+
 (defn create-domain [domain])
 (defn constrain [chech])
 
 ;=======================================================================
-; SQL oerations we define on tables. 
+; Some SQL oerations 
 ;=======================================================================
 
 ;; Union two tables
@@ -99,58 +116,16 @@
 ; Print the database
 ;=======================================================================
 
-(defn print-table [table-name]
-  (loop [result [] x 5] 
-      (if (zero? x)
-          result
-          (recur (conj result x) (dec x)))))
-    
+(use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
+;(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
+(defn printer-one-table [tbl]
+(print-table @tbl) )
 
 
-(defn indexed [coll] (map vector (iterate inc 0) coll));(indexed "abcde") ([0 \a] [1 \b] [2 \c] [3 \d] [4 \e])
-
-(println (format "%20s %20s %20s\n%20s %20s %20s" 
-                 "short" "medium" "reallylong" 
-                 "reallylong" "medium" "short")
-               
-(String/format "Training Week: %s Mileage: %d"
-(to-array [2 26])))
-
-;-----------------------------------------------------------------------  
-; taken from the internet and modified to our need:
-;-----------------------------------------------------------------------  
-
-(defn print-table [table-name]
-  "prints the table "
-  (let [table-ref (get (deref data-base) table-name) ; get refrence for table
-        keyList (keys @tableRef)] ; get key list of table
-    (doseq [tableKeys (range (count keyList))] ; print the keys of the table
-      (let [key (nth (keys @tableRef) tableKeys)]
-        (print key "\t|")))
-    (println(format  "%-20s %-20s %-20s\n%-20s %-20s %-20s"))
-    (doseq [rows (range (count @(tableRef (nth (keys @tableRef) 0))))] ; print for each rows all the values
-      (doseq [cols (range (count keyList))]
-        (let [key (nth (keys @tableRef) cols)]
-          (print (@(tableRef key) rows) "\t|")))
-      (println(format "%-20s %-20s %-20s\n%-20s %-20s %-20s"))))
-  (println))
-
-;------------------------- make and thern write to txt file ----------------------------
-
-(agent (clojure.java.io/writer
-       (clojure.java.io/file "output-tables.txt")
-                :append true))
-    
-
-(file (str (System/getProperty "user.dir")"\\mytable.txt"))
-                
-   
-(System/getProperty "user.dir"); To see what the current directory (so ".") is. Get the absolute path
-                               ; Another way is (-> (java.io.File. ".") .getAbsolutePath)
-(-> (java.io.File. ".") .getAbsolutePath)
-
-(use 'clojure.java.io)
-(with-open [wrtr (writer "/tmp/test.txt")]
-  (.write wrtr "Line to be written"))
 
 
+
+
+
+
+            

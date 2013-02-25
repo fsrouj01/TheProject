@@ -1,28 +1,27 @@
 (ns empty)
 
-(def compositions 
+(def compositions  (ref 
  #{{:name "The Art of the Fugue" :composer "J. S. Bach" }
    {:name "Musical Offering" :composer "J. S. Bach" }
    {:name "Requiem" :composer "Giuseppe Verdi" }
-   {:name "Requiem" :composer "W. A. Mozart" }})
+   {:name "Requiem" :composer "W. A. Mozart" }}))
 
-
-(def composers
+(def composers (ref 
 #{{:composer "J. S. Bach" :country "Germany" }
   {:composer "W. A. Mozart" :country "Austria" }
-  {:composer "Giuseppe Verdi" :country "Italy" }})
+  {:composer "Giuseppe Verdi" :country "Italy" }}))
 
-(def nations
+(def nations (ref 
 #{{:nation "Germany" :language "German" }
   {:nation "Austria" :language "German" }
-  {:nation "Italy" :language "Italian" }})
+  {:nation "Italy" :language "Italian" }}))
 
+(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
 
-(use 'clojure.pprint 'clojure.reflect)
-; this is from clojure/pprint/print_table.clj:11
-
-(defn printer-one-table [table-name]
-(def tbl (ref table-name))
+(defn printer-one-table [tbl]
 (print-table @tbl) )
 
 (printer-one-table composers)
+
+
+
