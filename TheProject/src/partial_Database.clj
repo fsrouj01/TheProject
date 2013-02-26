@@ -19,8 +19,7 @@
 
 (defn update-table
   "update the table"
-  [table-name]
-  ())
+  [table-name])
 
 (defn delete-table
   "delete the table"
@@ -31,41 +30,37 @@
 ;=======================================================================
 
 (defn create-database 
-  "this implementaion may be expanded to more than one table by 
-   operating the same operations here to all the tables that are 
-   included in the database." 
+  "this implementation " 
   [specs-and-tables-names table-num];can be done without the number of the tables
   (def thedb (ref []))
   (loop [result [] x table-num] 
     (if (zero? x);if all the tables are in, finish.
+        (dosync (alter thedb conj result))
    ; ((print "Database is done and all tables in")
-       (dosync (alter thedb conj result))
     (recur
-  (let [tables-names (get specs-and-tables-names (eval(read-string (format ":table-name%s" x))));takes the i'th name
+     (let [tables-names (get specs-and-tables-names (eval(read-string (format ":table-name%s" x))));takes the i'th name
         specs        (get specs-and-tables-names (eval(read-string (format ":table-specs%s" x))))];takes the i'th specs
-   (conj result (create-table tables-names specs)))(dec x));create each table
-  ))
-  )
+     (conj result (create-table tables-names specs)))(dec x));create each table
+   )))
     
-(print result)
+(defn create-database2 
+  "this implementaion for learning operates only on one table"
+  [specs-and-tables-names table-num];can be done without the number of the tables
+  (def thedb (ref []))      
+   ; ((print "Database is done and all tables in") 
+     (let [tables-names (keys specs-and-tables-names);takes the i'th name
+        specs        (vals specs-and-tables-names)];takes the i'th specs
+     (dosync (alter thedb conj (create-table tables-names specs)))));create each table
 
-(def sp {:table-name1 "firstTable" 
-         :table-specs1 {:name "" :composer "" :language ""} 
-         :table-name2 "secondTable" 
-         :table-specs2 {:name "" :composer "" :language ""}})
-
-(create-database sp 5)
 
 (defn drop-database [db-name])
 
 (defn use-database [db-name])
 
-(dosync (alter dataBase conj compositions))
-
 ;=======================================================================
 ; Change in an existing table
 ;=======================================================================
-(comment
+( comment
 ;==================== Add operations =================================
 
 (defn add-col 
@@ -110,17 +105,17 @@
 
 (defn create-domain [domain])
 (defn constrain [chech])
-)
+
 ;=======================================================================
 ; Some SQL oerations 
 ;=======================================================================
-(comment
-  
+
 ;; Union two tables
 (defn union-tables [table1 table2] (conj table1 table2)) 
 
 ;; difference two tables
-(defn difference-tables composers nations)
+(defn difference-tables composers nations
+  split-at)
 
 ;; intersection two tables
 (defn intersection-tables )
@@ -136,19 +131,16 @@
 
 ;; join two tables
 (defn join )
-
 )
 ;=======================================================================
 ; Print the database - important
 ;=======================================================================
 
-(use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
-;(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
+;(use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
+; this is from clojure/pprint/print_table.clj:11
+(use 'clojure.pprint)
 (defn printer-one-table [tabel]
 (print-table @tabel) )
-
-
-
 
 ; pritning to a txt file
 (comment
