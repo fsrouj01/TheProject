@@ -2,77 +2,60 @@
 ;(:require clojure.contrib.sql)
 
 ;=======================================================================
-; Manage the database
+; CRUD - create, read, update, delete - table
 ;=======================================================================
 
 (defn create-table 
+  "create a new table called as in [table-name]
+   based on the specs. And be able to expand it." 
   [table-name specs]
   (eval(read-string (str "(def " table-name "(ref #{}))")))
   (eval(read-string (str "(dosync (alter " table-name " conj " specs "))"))))
 
+(defn read-table
+  "read the table"
+  [table-name]
+  (@table-name))
 
+(defn update-table
+  "update the table"
+  [table-name]
+  ())
 
-  
+(defn delete-table
+  "delete the table"
+  [table-name]) 
+
+;=======================================================================
+; Manage the database
+;=======================================================================
+
 (defn create-database 
-  [databasa-name specs-and-tables-names]
-  (eval(read-string (str "(def " databasa-name " (ref #{}))")))
-  (let [tables-names (keys specs-and-tables-names)
-       specs (vals specs-and-tables-names )] 
-      (eval(read-string 
-         (str "(dosync (alter "  databasa-name " conj (create-table (tables-names specs))))")))))
+  "this implementaion may be expanded to more than one table by 
+   operating the same operations here to all the tables that are 
+   included in the database." 
+  [specs-and-tables-names table-num];can be done without the number of the tables
+  (def thedb (ref []))
+  (loop [result [] x table-num] 
+    (if (zero? x);if all the tables are in, finish.
+   ; ((print "Database is done and all tables in")
+       (dosync (alter thedb conj result))
+    (recur
+  (let [tables-names (get specs-and-tables-names (eval(read-string (format ":table-name%s" x))));takes the i'th name
+        specs        (get specs-and-tables-names (eval(read-string (format ":table-specs%s" x))))];takes the i'th specs
+   (conj result (create-table tables-names specs)))(dec x));create each table
+  ))
+  )
+    
+(print result)
 
+(def sp {:table-name1 "firstTable" 
+         :table-specs1 {:name "" :composer "" :language ""} 
+         :table-name2 "secondTable" 
+         :table-specs2 {:name "" :composer "" :language ""}})
 
+(create-database sp 5)
 
-
-  (def sp {"mykey" {"name" "" "composer" "" "language" ""}})
-  (create-database "yoyo" sp)
-
-
-  
-  
-  
-  
-  (eval(read-string 
-         (str "(dosync (alter "  databasa-name " conj (create-table (tables-names specs))))")))
-
-
-  
-  
-
- (eval(read-string (str "(def " "yoyo" " (ref #{}))")))
-   (let [tables-names (keys sp)
-       specs (vals sp)] 
-  (eval(read-string 
-         (str "(dosync (alter "  "yoyo" " conj (create-table ((first (tables-names)) (first(specs))))))"))))
-
-
- 
- 
-   
-  (comment
- ( read-string   ("faddfas"))
- 
- 
- 
- 
- 
- 
- 
-     (let [tables-names (keys sp)
-       specs (vals sp) ] 
-  (eval( (read-string (str "(dosync (alter " "yoyo" " conj (create-table"  "("))
-        (first tables-names)
-        (first (vals sp)) 
-        (read-string '("))))")))))
-     
-     
-  (def tables-names(keys sp))
-  @tables-names
-  
-  
-  
-  
-  
 (defn drop-database [db-name])
 
 (defn use-database [db-name])
@@ -80,51 +63,59 @@
 (dosync (alter dataBase conj compositions))
 
 ;=======================================================================
-; CRUD - create, read, update, delete - table
-;=======================================================================
-
-(defn create-table 
-  [table-name specs]
-  (eval(read-string (str "(def " table-name "(ref #{}))")))
-  (eval(read-string (str "(dosync (alter " table-name " conj " specs "))"))))
-
-(defn read-table
-  [table-name]
-  (@table-name))
-
-
-;=======================================================================
 ; Change in an existing table
 ;=======================================================================
+(comment
+;==================== Add operations =================================
 
-(defn table-add-col [table-name col]
+(defn add-col 
+  "add one column to the table"
+  [table-name col] 
   (cons table-name col)
-  (assoc serializable-stu :state "NC"))
+  (assoc serializable-stu col))
 
-(defn table-add-cols [table-name cols]
-  apple(cons table-name col))
+(defn add-cols
+  "add one more than one colums to the table"
+  [table-name cols] 
+  apple(add-col ))
 
-(defn table-add-row [table-name col]
-  (cons table-name col))
+(defn  add-row [table-name col]
+  "add one row to the table" 
+  ((assoc nations :state "NC") ))
 
-(defn table-add-rows [table-name col]
-  (cons table-name col))
+(defn  add-rows [table-name col]
+  "add more than one row to the table"
+  (cons add-row))
 
-(defn drop-table [table-name att]
-  (alter r update-fn & args))
+;==================== Delete operations =================================
 
-(assoc nations :state "NC")
+(defn delete-col 
+  "delete one column to the table"
+  [table-name col] 
+  (cons table-name col)
+  (assoc serializable-stu col))
 
-;;; Domain constraints
-;; Value inserted to the database must come appropriate field
+(defn delete-cols
+  "delete one more than one colums to the table"
+  [table-name cols] 
+  apple(delete-col ))
+
+(defn delete-row [table-name col]
+  "delete one row to the table" 
+  ((dissoc nations :state "NC") ))
+
+(defn delete-rows [table-name col]
+  "delete more than one row to the table"
+  (cons delete-row))
 
 (defn create-domain [domain])
 (defn constrain [chech])
-
+)
 ;=======================================================================
 ; Some SQL oerations 
 ;=======================================================================
-
+(comment
+  
 ;; Union two tables
 (defn union-tables [table1 table2] (conj table1 table2)) 
 
@@ -145,22 +136,26 @@
 
 ;; join two tables
 (defn join )
- 
 
+)
 ;=======================================================================
 ; Print the database
 ;=======================================================================
 
 (use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
 ;(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
-(defn printer-one-table [tbl]
-(print-table @tbl) )
+(defn printer-one-table [tabel]
+(print-table @tabel) )
 
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-; The end
+;                                The end
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-)
 
 
+;=============== possible extesions to the project =====================;
+; Funcitonal dependencies
+; 3NF BCNF algorithims
+; Reading from txt files the DDL code. parsing may be here or in JAVA.
+;=======================================================================            
 
-            
+
