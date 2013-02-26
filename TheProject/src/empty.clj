@@ -6,22 +6,33 @@
    {:name "Requiem" :composer "Giuseppe Verdi" }
    {:name "Requiem" :composer "W. A. Mozart" }}))
 
+  (assoc (first @compositions ) :tata "")
+
+  
+  
 (def composers (ref 
 #{{:composer "J. S. Bach" :country "Germany" }
   {:composer "W. A. Mozart" :country "Austria" }
   {:composer "Giuseppe Verdi" :country "Italy" }}))
 
-(def nations (ref 
+(def nations
 #{{:nation "Germany" :language "German" }
   {:nation "Austria" :language "German" }
-  {:nation "Italy" :language "Italian" }}))
+  {:nation "Italy" :language "Italian" }})
 
-(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
 
-(defn printer-one-table [tbl]
-(print-table @tbl) )
 
-(printer-one-table composers)
+
+(dosync (alter nations conj {:1 5}))
+(dosync (alter nations conj {:2 ""}))
+
+
+
+
+(lol)
+(print "cohlkj")
+(eval(print (create-table 'nations))
+
 
 
 

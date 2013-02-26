@@ -1,17 +1,78 @@
-(ns partial-Database
-  (:require clojure.lang.ISeq.))
+(ns partial_Database)
 ;(:require clojure.contrib.sql)
-
-;;;;;;;; draft file ;;;;;;;;;
 
 ;=======================================================================
 ; Manage the database
 ;=======================================================================
 
-(defn #^set create-database #^set[db-name tables-names]
-  "Returns a database constructed from the tables inputed"
-  (def db-name (ref #{})))
-(if) 
+(defn create-table 
+  [table-name specs]
+  (eval(read-string (str "(def " table-name "(ref #{}))")))
+  (eval(read-string (str "(dosync (alter " table-name " conj " specs "))"))))
+
+
+
+  
+(defn create-database 
+  [databasa-name specs-and-tables-names]
+  (eval(read-string (str "(def " databasa-name " (ref #{}))")))
+  (let [tables-names (keys specs-and-tables-names)
+       specs (vals specs-and-tables-names )] 
+      (eval(read-string 
+         (str "(dosync (alter "  databasa-name " conj (create-table (tables-names specs))))")))))
+
+
+
+
+  (def sp {"mykey" {"name" "" "composer" "" "language" ""}})
+  (create-database "yoyo" sp)
+
+
+  
+  
+  
+  
+  (eval(read-string 
+         (str "(dosync (alter "  databasa-name " conj (create-table (tables-names specs))))")))
+
+
+  
+  
+
+ (eval(read-string (str "(def " "yoyo" " (ref #{}))")))
+   (let [tables-names (keys sp)
+       specs (vals sp)] 
+  (eval(read-string 
+         (str "(dosync (alter "  "yoyo" " conj (create-table ((first (tables-names)) (first(specs))))))"))))
+
+
+ 
+ 
+   
+  (comment
+ ( read-string   ("faddfas"))
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+     (let [tables-names (keys sp)
+       specs (vals sp) ] 
+  (eval( (read-string (str "(dosync (alter " "yoyo" " conj (create-table"  "("))
+        (first tables-names)
+        (first (vals sp)) 
+        (read-string '("))))")))))
+     
+     
+  (def tables-names(keys sp))
+  @tables-names
+  
+  
+  
+  
+  
 (defn drop-database [db-name])
 
 (defn use-database [db-name])
@@ -19,45 +80,26 @@
 (dosync (alter dataBase conj compositions))
 
 ;=======================================================================
-; Create a ?
-;=======================================================================
- 
-(def tables (ref #{}))
-
-(dosync & db); Use ref to create a reference, and use def to bind this reference to the name tables
-        
-(db (alter tables conj "Stu"))
-
-;=======================================================================
-; To make a reference to the table ?
-;=======================================================================
-
-(def tables (ref #{}))
-@ tables     
-(dosync (alter tables conj "Stu"))
-@tables
-     
-;=======================================================================
-; Functional dependencies inside the table        
-;=======================================================================
-       
-(let [])
-
-;=======================================================================
 ; CRUD - create, read, update, delete - table
 ;=======================================================================
 
-(defn create-table [table-name]
-  "creates an empty table"
-  (def table-name  )
-  )
+(defn create-table 
+  [table-name specs]
+  (eval(read-string (str "(def " table-name "(ref #{}))")))
+  (eval(read-string (str "(dosync (alter " table-name " conj " specs "))"))))
+
+(defn read-table
+  [table-name]
+  (@table-name))
+
 
 ;=======================================================================
 ; Change in an existing table
 ;=======================================================================
 
 (defn table-add-col [table-name col]
-  (cons table-name col))
+  (cons table-name col)
+  (assoc serializable-stu :state "NC"))
 
 (defn table-add-cols [table-name cols]
   apple(cons table-name col))
@@ -90,27 +132,20 @@
 (defn difference-tables composers nations)
 
 ;; intersection two tables
-(defn intersection-tables languages beverages)
+(defn intersection-tables )
 
 ;; select columns
-(defn select #(= 1 (.length %)) languages)
+(defn select )
 
 ;; where rows
-(defn where #(= 1 (.length %)) languages)
+(defn where )
 
 ;; from tables. cartesian multiplication on tables
-(defn from #(= 1 (.length %)) languages)
+(defn from )
 
 ;; join two tables
-(defn join compositions composers)
+(defn join )
  
-;=======================================================================
-; Get table as a string for printing
-;=======================================================================
-
-(defn #^Set get-str-table [#^String c]); expects a set and returns a string. #^String = #^{:tag String}
-(defn #^{:tag String} shout [#^{:tag String} s] (.toUpperCase s))
-(shout "")
 
 ;=======================================================================
 ; Print the database
@@ -121,10 +156,10 @@
 (defn printer-one-table [tbl]
 (print-table @tbl) )
 
-
-
-
-
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+; The end
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+)
 
 
 

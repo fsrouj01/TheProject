@@ -1,8 +1,7 @@
 (ns tests
-  "Tests for partial-Database as a whole"
-  (:use partial-Database); copy all symbols from the partial-Database ns
-  (:use clojure.set)
-  (:import (java.io File))  
+  ;Tests for partial-Database as a whole
+  (:use partial_Database); copy all symbols from the partial-Database ns
+  
 )
 
 ;(:require clojure.contrib.sql)
@@ -14,6 +13,12 @@
 ;-----------------------------------------------------------------------  
 
 
+
+(def specs {:name "" :composer "" :language ""})
+
+(create-table "nations" "specs")
+
+(read-table nations)
 
 ;-----------------------------------------------------------------------  
 ; Testing SQL operations 
