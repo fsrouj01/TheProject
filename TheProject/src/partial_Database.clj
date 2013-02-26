@@ -139,13 +139,30 @@
 
 )
 ;=======================================================================
-; Print the database
+; Print the database - important
 ;=======================================================================
 
 (use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
 ;(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
 (defn printer-one-table [tabel]
 (print-table @tabel) )
+
+
+
+
+; pritning to a txt file
+(comment
+(binding [*out* (clojure.java.io/writer "foo.txt")]
+  (print "Hello World"))
+
+(print "This does NOT go to the file") ;; outside the binding macro
+
+(set! *out* (clojure.java.io/writer "foo.txt"))
+
+(print "foo") ;; written to foo.txt
+(print "bar") ;; written to foo.txt
+;not sure if there will be any negative side-effects of re-setting this var. 
+)
 
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ;                                The end

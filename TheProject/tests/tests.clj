@@ -73,7 +73,14 @@ where rows
 ;-----------------------------------------------------------------------  
 
 
-
+;-----------------------------------------------------------------------  
+; Printing !
+;-----------------------------------------------------------------------  
+;(use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
+(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
+(print-table composers-made-before) 
+(print-table nations-made-before) 
+(print-table compositions-made-before) 
 
 
 

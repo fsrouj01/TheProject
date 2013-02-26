@@ -1,5 +1,5 @@
-(ns tests2
-  (:use partial_Database))
+(ns tests2)
+ ; (:use partial_Database))
 
 ;***********************************************************************
 ; Already created three tables - the same as the db from test1 should output
@@ -13,7 +13,7 @@
 {:name "Requiem" :composer "Giuseppe Verdi" }
 {:name "Requiem" :composer "W. A. Mozart" }})
 
-(def composers-made-befoe
+(def composers-made-before
 #{{:composer "J. S. Bach" :country "Germany" }
 {:composer "W. A. Mozart" :country "Austria" }
 {:composer "Giuseppe Verdi" :country "Italy" }})
@@ -51,5 +51,17 @@ where rows
 
 )
 ;-----------------------------------------------------------------------  
-; Relational algebra tests
+; Printing !
 ;-----------------------------------------------------------------------  
+;(use 'clojure.pprint 'clojure.reflect) ; this is from clojure/pprint/print_table.clj:11
+(use 'clojure.pprint); this is from clojure/pprint/print_table.clj:11
+(print-table composers-made-before) 
+(print-table nations-made-before) 
+(print-table compositions-made-before) 
+
+
+
+
+
+
+
